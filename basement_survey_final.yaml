@@ -1,0 +1,217 @@
+basement_survey:
+  metadata:
+    project_name: "Schimbare Coloană Apă Rece - Scara [NUMĂRUL_SCĂRII]"
+    address: "București, [ADRESA_EXACTĂ]"
+    survey_date: "2024-01-XX"
+    surveyor: "[NUMELE_TĂU]"
+    coordinate_system: "Local basement grid"
+    reference_point: 
+      description: "Colțul de referință al subsolului"
+      coordinates: [0, 0, 0]  # x, y, z
+
+  layers:
+    layer_0_plan_releveu:
+      name: "Layer 0 - Plan Releveu"
+      description: "Releveul arhitectural al subsolului"
+      color: "#000000"  # Negru
+      # FĂRĂ diametru - este doar planul de referință
+      
+      elements:
+        basement_outline:
+          points: [[0, 0], [16, 0], [16, 10], [0, 10], [0, 0]]
+          notes: "Conturul subsolului"
+          
+        structural_elements:
+          - type: "pillar"
+            center: [4, 3]
+            dimensions: [0.4, 0.4]
+            
+          - type: "pillar"
+            center: [12, 3]
+            dimensions: [0.4, 0.4]
+            
+        access_points:
+          - type: "stairs"
+            center: [2, 5]
+            serves: "Scara 1"
+            
+          - type: "stairs"
+            center: [8, 5]
+            serves: "Scara noastră"
+            
+          - type: "stairs"
+            center: [14, 5]
+            serves: "Scara 3"
+            
+        measurements:
+          - description: "Lungime totală subsol"
+            value: 16.0  # metri
+            
+          - description: "Lățime totală subsol"
+            value: 10.0  # metri
+
+    layer_1_teava_comuna_intre_scari:
+      name: "Layer 1 - Țeavă Comună între Scări"
+      description: "Rețeaua de distribuție comună pentru toate scările"
+      color: "#FF0000"  # Roșu
+      diameter: 110  # mm
+      material: "oțel_galvanizat"
+      installation_year: "1985"
+      condition: "corodată_mediu"
+      
+      segments:
+        - id: "alimentare_principala"
+          start_point: [0, 1, -2.5]
+          end_point: [16, 1, -2.5]
+          length: 16.0
+          notes: "Alimentare din stradă"
+          
+        - id: "distribuție_transversala"
+          start_point: [8, 1, -2.5]
+          end_point: [8, 9, -2.5]
+          length: 8.0
+          notes: "Distribuție către scări"
+          
+      derivații:
+        - coordinates: [2, 1, -2.5]
+          serves: "Scara 1"
+          diameter_out: 75
+          
+        - coordinates: [8, 1, -2.5]
+          serves: "Scara noastră"
+          diameter_out: 75
+          
+        - coordinates: [14, 1, -2.5]
+          serves: "Scara 3"
+          diameter_out: 75
+
+    layer_2_teava_scarii_noastre:
+      name: "Layer 2 - Țeava Scării Noastre"
+      description: "Distribuția specifică pentru scara noastră"
+      color: "#0000FF"  # Albastru
+      diameter: 75  # mm
+      material: "oțel_galvanizat"
+      installation_year: "1985"
+      condition: "corodată_grav"
+      
+      segments:
+        - id: "segment_principal"
+          start_point: [8, 1, -2.5]  # conectare din layer 1
+          end_point: [8, 7, -2.5]
+          length: 6.0
+          notes: "Segment principal orizontal"
+          
+        - id: "ramura_secundara"
+          start_point: [8, 5, -2.5]
+          end_point: [11, 5, -2.5]
+          length: 3.0
+          notes: "Ramură către coloanele din spate"
+          
+      puncte_racordare:
+        - coordinates: [8, 3, -2.5]
+          column_id: "A"
+          serves_apartments: ["1A", "2A", "3A", "4A"]
+          diameter_out: 50
+          
+        - coordinates: [8, 6, -2.5]
+          column_id: "B"
+          serves_apartments: ["1B", "2B", "3B", "4B"]
+          diameter_out: 50
+          
+        - coordinates: [11, 5, -2.5]
+          column_id: "C"
+          serves_apartments: ["1C", "2C", "3C", "4C"]
+          diameter_out: 50
+
+    layer_3_scurgeri_la_teava_scarii:
+      name: "Layer 3 - Scurgeri la Țeava Scării"
+      description: "Conectările verticale din layer 2"
+      color: "#00FF00"  # Verde
+      diameter: 50  # mm
+      material: "oțel_galvanizat"
+      installation_year: "1985"
+      condition: "variabilă"
+      
+      coloane_verticale:
+        - id: "coloana_A"
+          start_point: [8, 3, -2.5]  # conectare din layer 2
+          end_point: [8, 3, 0.0]     # până la parter
+          length: 2.5
+          serves_apartments: ["1A", "2A", "3A", "4A"]
+          condition: "corodată_mediu"
+          priority_inlocuire: 2
+          
+        - id: "coloana_B"
+          start_point: [8, 6, -2.5]
+          end_point: [8, 6, 0.0]
+          length: 2.5
+          serves_apartments: ["1B", "2B", "3B", "4B"]
+          condition: "critică"
+          priority_inlocuire: 1
+          notes: "Presiune scăzută - înlocuire urgentă"
+          
+        - id: "coloana_C"
+          start_point: [11, 5, -2.5]
+          end_point: [11, 5, 0.0]
+          length: 2.5
+          serves_apartments: ["1C", "2C", "3C", "4C"]
+          condition: "bună"
+          priority_inlocuire: 3
+
+  infrastructure_suplimentara:
+    vane:
+      - coordinates: [0.5, 1, -2.5]
+        type: "vana_principala"
+        diameter: 110
+        condition: "funcționala"
+        
+      - coordinates: [8, 0.5, -2.5]
+        type: "vana_scara"
+        diameter: 75
+        condition: "blocată"
+        
+    suporturi:
+      - coordinates: [4, 1, -2.5]
+        type: "suport_fix"
+        condition: "corodat"
+        
+      - coordinates: [8, 4, -2.5]
+        type: "clemă_fixare"
+        condition: "bună"
+        
+    obstacole:
+      - coordinates: [6, 3, -2.0]
+        type: "coloană_electrică"
+        dimensions: [0.3, 0.3, 2.5]
+        impact: "necesită_ocolire"
+
+  planul_de_inlocuire:
+    prioritati:
+      1: "layer_3_scurgeri_la_teava_scarii - coloana_B"
+      2: "layer_2_teava_scarii_noastre - complet"
+      3: "layer_3_scurgeri_la_teava_scarii - coloana_A"
+      
+    materiale_noi:
+      layer_2: "PPR_PN20_75mm"
+      layer_3: "PPR_PN20_50mm"
+      
+    estimare_costuri:
+      materiale: 2800  # RON
+      manopera: 4000   # RON
+      autorizatii: 500 # RON
+      total: 7300      # RON
+
+  log_masuratori:
+    data_releveu: "2024-01-XX"
+    instrument: "ruleta_laser"
+    precizie: "±2mm"
+    verificat_de: "[NUMELE_TĂU]"
+    
+  fotografii:
+    - fisier: "basement_overview.jpg"
+      pozitie: [8, 5, -1.5]
+      descriere: "Vedere generală subsol"
+      
+    - fisier: "layer2_corrosion.jpg" 
+      pozitie: [8, 1, -2.5]
+      descriere: "Coroziune gravă layer 2"
