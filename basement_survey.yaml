@@ -1,0 +1,201 @@
+basement_survey:
+  metadata:
+    project_name: "Schimbare Coloană Apă Rece - Scara [NUMĂRUL_SCĂRII]"
+    address: "București, [ADRESA_EXACTĂ]"
+    survey_date: "2024-01-XX"
+    surveyor: "[NUMELE_TĂU]"
+    scale: "1:50"  # sau alta
+    coordinate_system: "Local basement grid"
+    reference_point: 
+      description: "Colțul stânga-jos al subsolului"
+      coordinates: [0, 0, 0]  # x, y, z
+
+  layers:
+    DN110_main_distribution:
+      name: "Coloană Principală DN110"
+      description: "Comună cu alte scări, distribuție generală"
+      color: "#FF0000"  # Roșu
+      material: "oțel_galvanizat"  # sau "fier", "ppr", etc.
+      installation_year: "1985"  # estimativ
+      condition: "corodată_mediu"  # "bună", "corodată_ușor", "critică"
+      
+      segments:
+        - id: "DN110_01"
+          start_point: [0, 0, -2.5]
+          end_point: [15.5, 0, -2.5]
+          length: 15.5  # metri
+          diameter: 110  # mm
+          notes: "Segment principal de intrare"
+          
+        - id: "DN110_02"
+          start_point: [15.5, 0, -2.5]
+          end_point: [15.5, 8.2, -2.5]
+          length: 8.2
+          diameter: 110
+          notes: "Ramificare către scările 1-3"
+          
+      connection_points:
+        - id: "branșament_general"
+          coordinates: [0, 0, -2.5]
+          type: "intrare_principală"
+          diameter: 110
+          
+        - id: "derivație_scara_1"
+          coordinates: [5.2, 0, -2.5]
+          type: "ramificare"
+          diameter_out: 75
+          
+        - id: "derivație_scara_2"
+          coordinates: [10.8, 0, -2.5]
+          type: "ramificare"
+          diameter_out: 75
+
+    DN75_stair_distribution:
+      name: "Distribuție pe Scară DN75"
+      description: "Comună pentru scara noastră"
+      color: "#0000FF"  # Albastru
+      material: "oțel_galvanizat"
+      installation_year: "1985"
+      condition: "corodată_grav"
+      
+      segments:
+        - id: "DN75_01"
+          start_point: [10.8, 0, -2.5]  # din DN110
+          end_point: [10.8, 6.0, -2.5]
+          length: 6.0
+          diameter: 75
+          notes: "Segment principal scară"
+          
+        - id: "DN75_02"
+          start_point: [10.8, 6.0, -2.5]
+          end_point: [13.2, 6.0, -2.5]
+          length: 2.4
+          diameter: 75
+          notes: "Către coloanele din spate"
+          
+      connection_points:
+        - id: "racord_coloana_A"
+          coordinates: [10.8, 2.0, -2.5]
+          type: "derivație_verticală"
+          diameter_out: 50
+          serves_apartments: ["1A", "2A", "3A", "4A"]
+          
+        - id: "racord_coloana_B"
+          coordinates: [10.8, 4.5, -2.5]
+          type: "derivație_verticală"
+          diameter_out: 50
+          serves_apartments: ["1B", "2B", "3B", "4B"]
+
+    DN50_vertical_columns:
+      name: "Coloane Verticale DN50"
+      description: "Individuală pe fiecare coloană de apartamente"
+      color: "#00FF00"  # Verde
+      material: "oțel_galvanizat"
+      installation_year: "1985"
+      condition: "variabilă"
+      
+      columns:
+        - id: "coloana_A"
+          name: "Coloana A - Apartamente A"
+          color: "#00AA00"
+          start_point: [10.8, 2.0, -2.5]
+          end_point: [10.8, 2.0, 0.0]  # până la parterul
+          serves_apartments: ["1A", "2A", "3A", "4A"]
+          condition: "corodată_mediu"
+          
+          segments:
+            - id: "DN50_A_basement"
+              start_point: [10.8, 2.0, -2.5]
+              end_point: [10.8, 2.0, -0.3]
+              length: 2.2
+              notes: "Segment subsol către parter"
+              
+        - id: "coloana_B"
+          name: "Coloana B - Apartamente B"
+          color: "#00CC00"
+          start_point: [10.8, 4.5, -2.5]
+          end_point: [10.8, 4.5, 0.0]
+          serves_apartments: ["1B", "2B", "3B", "4B"]
+          condition: "critică"
+          
+          segments:
+            - id: "DN50_B_basement"
+              start_point: [10.8, 4.5, -2.5]
+              end_point: [10.8, 4.5, -0.3]
+              length: 2.2
+              notes: "Necesită înlocuire urgentă"
+
+  additional_infrastructure:
+    valves:
+      - id: "vana_principală"
+        coordinates: [0.5, 0, -2.5]
+        type: "vana_sferică"
+        diameter: 110
+        condition: "funcțională"
+        
+      - id: "vana_scară"
+        coordinates: [10.8, 0.5, -2.5]
+        type: "vana_fluture"
+        diameter: 75
+        condition: "blocată"
+        
+    support_points:
+      - coordinates: [5.0, 0, -2.5]
+        type: "suport_metalic"
+        condition: "corodat"
+        
+      - coordinates: [10.8, 3.0, -2.5]
+        type: "clemă_fixare"
+        condition: "bună"
+        
+    obstacles:
+      - coordinates: [7.5, 2.0, -2.0]
+        type: "coloană_electrică"
+        dimensions: [0.3, 0.3, 2.5]
+        notes: "Necesită ocolire"
+        
+  technical_notes:
+    pressure_issues:
+      - location: "coloana_B"
+        description: "Presiune scăzută la etajele superioare"
+        severity: "critică"
+        
+    corrosion_points:
+      - location: "DN75_01"
+        description: "Coroziune avansată la raccordul cu DN110"
+        action_required: "înlocuire_completă"
+        
+  replacement_plan:
+    priority_order:
+      1: "DN75_stair_distribution"
+      2: "DN50_coloana_B"
+      3: "DN50_coloana_A"
+      
+    new_materials:
+      DN75: "PPR_PN20"
+      DN50: "PPR_PN20"
+      
+    estimated_costs:
+      materials: 2500  # RON
+      labor: 3500      # RON
+      permits: 500     # RON
+      total: 6500      # RON
+
+  photos:
+    - filename: "basement_overview_01.jpg"
+      coordinates: [8.0, 3.0, -1.0]
+      direction: "nord"
+      description: "Vedere generală subsol"
+      
+    - filename: "DN75_corrosion_01.jpg"
+      coordinates: [10.8, 1.0, -2.5]
+      description: "Coroziune gravă pe DN75"
+      
+  measurements_log:
+    - timestamp: "2024-01-XX 10:00"
+      measurer: "[NUMELE_TĂU]"
+      instrument: "ruletă_laser_50m"
+      accuracy: "±2mm"
+      
+    - verification_required: true
+      next_survey_date: "2024-01-XX"
