@@ -84,6 +84,19 @@ basement_survey:
         - coordinates: [14, 1]
           serves: "Scara 3"
           diameter_out: 75
+          
+      racorduri_si_cotoare:
+        - coordinates: [8, 1]
+          type: "cot_90_grade"
+          description: "Schimbare direcție din orizontal în vertical"
+          diameter: 110
+          material_racord: "fonta_maleabilă"
+          condition: "corodată"
+          
+        - coordinates: [16, 1]
+          type: "dop_final"
+          description: "Capăt de țeavă"
+          diameter: 110
 
     layer_2_teava_scarii_noastre:
       name: "Layer 2 - Țeava Scării Noastre"
@@ -122,6 +135,46 @@ basement_survey:
           column_id: "C"
           serves_apartments: ["1C", "2C", "3C", "4C"]
           diameter_out: 50
+          
+      racorduri_si_cotoare:
+        - coordinates: [8, 1]
+          type: "reducție_110_75"
+          description: "Reducție de la layer 1 (DN110) la layer 2 (DN75)"
+          diameter_in: 110
+          diameter_out: 75
+          material_racord: "fonta_maleabilă"
+          condition: "bună"
+          
+        - coordinates: [8, 5]
+          type: "teu_egal_75"
+          description: "Ramificare către coloana C"
+          diameter: 75
+          material_racord: "fonta_maleabilă"
+          condition: "corodată_mediu"
+          
+        - coordinates: [8, 3]
+          type: "teu_reducție_75_50"
+          description: "Derivație către coloana A"
+          diameter_in: 75
+          diameter_out: 50
+          material_racord: "fonta_maleabilă"
+          condition: "bună"
+          
+        - coordinates: [8, 6]
+          type: "teu_reducție_75_50"
+          description: "Derivație către coloana B"
+          diameter_in: 75
+          diameter_out: 50
+          material_racord: "fonta_maleabilă"
+          condition: "critică"
+          
+        - coordinates: [11, 5]
+          type: "cot_90_grade_reducție"
+          description: "Schimbare direcție + reducție către coloana C"
+          diameter_in: 75
+          diameter_out: 50
+          material_racord: "fonta_maleabilă"
+          condition: "bună"
 
     layer_3_scurgeri_la_teava_scarii:
       name: "Layer 3 - Scurgeri la Țeava Scării"
@@ -154,6 +207,29 @@ basement_survey:
           serves_apartments: ["1C", "2C", "3C", "4C"]
           condition: "bună"
           priority_inlocuire: 3
+          
+      racorduri_si_cotoare:
+        - coordinates: [8, 3]
+          type: "cot_90_grade_50"
+          description: "Schimbare direcție din orizontal în vertical - coloana A"
+          diameter: 50
+          material_racord: "fonta_maleabilă"
+          condition: "corodată_mediu"
+          
+        - coordinates: [8, 6]
+          type: "cot_90_grade_50"
+          description: "Schimbare direcție din orizontal în vertical - coloana B"
+          diameter: 50
+          material_racord: "fonta_maleabilă"
+          condition: "critică"
+          notes: "Necesită înlocuire - fisuri vizibile"
+          
+        - coordinates: [11, 5]
+          type: "cot_90_grade_50"
+          description: "Schimbare direcție din orizontal în vertical - coloana C"
+          diameter: 50
+          material_racord: "fonta_maleabilă"
+          condition: "bună"
 
   infrastructure_suplimentara:
     vane:
@@ -197,6 +273,33 @@ basement_survey:
       manopera: 4000   # RON
       autorizatii: 500 # RON
       total: 7300      # RON
+
+  tipuri_racorduri_referinta:
+    cotoare:
+      - "cot_90_grade" # schimbare direcție 90°
+      - "cot_45_grade" # schimbare direcție 45°
+      - "cot_reducție"  # schimbare direcție + reducție diametru
+      
+    teuri:
+      - "teu_egal"        # ramificare același diametru
+      - "teu_reducție"    # ramificare cu reducție diametru
+      - "teu_inegal"      # ramificare diametru diferit
+      
+    reducții:
+      - "reducție_concentrică"   # reducție centrată
+      - "reducție_excentrică"    # reducție dezaxată
+      
+    elemente_speciale:
+      - "dop_final"       # închidere capăt țeavă
+      - "flanșă"          # conexiune demontabilă
+      - "niplă"           # conexiune scurtă
+      - "mufă"            # îmbinare țevi
+      
+    materiale_racorduri:
+      - "fonta_maleabilă"  # material tradițional
+      - "oțel_galvanizat"  # material corodat
+      - "PPR"              # material nou recomandat
+      - "cupru"            # material premium
 
   log_masuratori:
     data_releveu: "2024-01-XX"
