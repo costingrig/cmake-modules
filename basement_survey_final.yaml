@@ -7,7 +7,7 @@ basement_survey:
     coordinate_system: "Local basement grid"
     reference_point: 
       description: "Colțul de referință al subsolului"
-      coordinates: [0, 0, 0]  # x, y, z
+      coordinates: [0, 0]  # x, y
 
   layers:
     layer_0_plan_releveu:
@@ -61,27 +61,27 @@ basement_survey:
       
       segments:
         - id: "alimentare_principala"
-          start_point: [0, 1, -2.5]
-          end_point: [16, 1, -2.5]
+          start_point: [0, 1]
+          end_point: [16, 1]
           length: 16.0
           notes: "Alimentare din stradă"
           
         - id: "distribuție_transversala"
-          start_point: [8, 1, -2.5]
-          end_point: [8, 9, -2.5]
+          start_point: [8, 1]
+          end_point: [8, 9]
           length: 8.0
           notes: "Distribuție către scări"
           
       derivații:
-        - coordinates: [2, 1, -2.5]
+        - coordinates: [2, 1]
           serves: "Scara 1"
           diameter_out: 75
           
-        - coordinates: [8, 1, -2.5]
+        - coordinates: [8, 1]
           serves: "Scara noastră"
           diameter_out: 75
           
-        - coordinates: [14, 1, -2.5]
+        - coordinates: [14, 1]
           serves: "Scara 3"
           diameter_out: 75
 
@@ -96,29 +96,29 @@ basement_survey:
       
       segments:
         - id: "segment_principal"
-          start_point: [8, 1, -2.5]  # conectare din layer 1
-          end_point: [8, 7, -2.5]
+          start_point: [8, 1]  # conectare din layer 1
+          end_point: [8, 7]
           length: 6.0
           notes: "Segment principal orizontal"
           
         - id: "ramura_secundara"
-          start_point: [8, 5, -2.5]
-          end_point: [11, 5, -2.5]
+          start_point: [8, 5]
+          end_point: [11, 5]
           length: 3.0
           notes: "Ramură către coloanele din spate"
           
       puncte_racordare:
-        - coordinates: [8, 3, -2.5]
+        - coordinates: [8, 3]
           column_id: "A"
           serves_apartments: ["1A", "2A", "3A", "4A"]
           diameter_out: 50
           
-        - coordinates: [8, 6, -2.5]
+        - coordinates: [8, 6]
           column_id: "B"
           serves_apartments: ["1B", "2B", "3B", "4B"]
           diameter_out: 50
           
-        - coordinates: [11, 5, -2.5]
+        - coordinates: [11, 5]
           column_id: "C"
           serves_apartments: ["1C", "2C", "3C", "4C"]
           diameter_out: 50
@@ -134,16 +134,14 @@ basement_survey:
       
       coloane_verticale:
         - id: "coloana_A"
-          start_point: [8, 3, -2.5]  # conectare din layer 2
-          end_point: [8, 3, 0.0]     # până la parter
-          length: 2.5
+          coordinates: [8, 3]  # punctul de plecare din layer 2
+          length: 2.5          # lungimea verticală către parter
           serves_apartments: ["1A", "2A", "3A", "4A"]
           condition: "corodată_mediu"
           priority_inlocuire: 2
           
         - id: "coloana_B"
-          start_point: [8, 6, -2.5]
-          end_point: [8, 6, 0.0]
+          coordinates: [8, 6]
           length: 2.5
           serves_apartments: ["1B", "2B", "3B", "4B"]
           condition: "critică"
@@ -151,8 +149,7 @@ basement_survey:
           notes: "Presiune scăzută - înlocuire urgentă"
           
         - id: "coloana_C"
-          start_point: [11, 5, -2.5]
-          end_point: [11, 5, 0.0]
+          coordinates: [11, 5]
           length: 2.5
           serves_apartments: ["1C", "2C", "3C", "4C"]
           condition: "bună"
@@ -160,29 +157,29 @@ basement_survey:
 
   infrastructure_suplimentara:
     vane:
-      - coordinates: [0.5, 1, -2.5]
+      - coordinates: [0.5, 1]
         type: "vana_principala"
         diameter: 110
         condition: "funcționala"
         
-      - coordinates: [8, 0.5, -2.5]
+      - coordinates: [8, 0.5]
         type: "vana_scara"
         diameter: 75
         condition: "blocată"
         
     suporturi:
-      - coordinates: [4, 1, -2.5]
+      - coordinates: [4, 1]
         type: "suport_fix"
         condition: "corodat"
         
-      - coordinates: [8, 4, -2.5]
+      - coordinates: [8, 4]
         type: "clemă_fixare"
         condition: "bună"
         
     obstacole:
-      - coordinates: [6, 3, -2.0]
+      - coordinates: [6, 3]
         type: "coloană_electrică"
-        dimensions: [0.3, 0.3, 2.5]
+        dimensions: [0.3, 0.3]  # lungime x lățime
         impact: "necesită_ocolire"
 
   planul_de_inlocuire:
@@ -209,9 +206,9 @@ basement_survey:
     
   fotografii:
     - fisier: "basement_overview.jpg"
-      pozitie: [8, 5, -1.5]
+      pozitie: [8, 5]
       descriere: "Vedere generală subsol"
       
     - fisier: "layer2_corrosion.jpg" 
-      pozitie: [8, 1, -2.5]
+      pozitie: [8, 1]
       descriere: "Coroziune gravă layer 2"
