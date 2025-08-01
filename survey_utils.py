@@ -24,19 +24,22 @@ class BasementSurveyProcessor:
     def calculate_total_lengths(self) -> Dict[str, float]:
         """Calculate total pipe lengths by diameter"""
         lengths = {'DN110': 0, 'DN75': 0, 'DN50': 0}
+        layers = self.data['basement_survey']['layers']
         
-        # DN110 segments
-        for segment in self.data['basement_survey']['layers']['DN110_main_distribution']['segments']:
-            lengths['DN110'] += segment['length']
+        # Layer 1 - DN110 segments (common between stairs)
+        if 'layer_1_common_between_stairs' in layers:
+            for segment in layers['layer_1_common_between_stairs']['segments']:
+                lengths['DN110'] += segment['length']
         
-        # DN75 segments  
-        for segment in self.data['basement_survey']['layers']['DN75_stair_distribution']['segments']:
-            lengths['DN75'] += segment['length']
+        # Layer 2 - DN75 segments (our stair pipe)
+        if 'layer_2_our_stair_pipe' in layers:
+            for segment in layers['layer_2_our_stair_pipe']['segments']:
+                lengths['DN75'] += segment['length']
             
-        # DN50 segments
-        for column in self.data['basement_survey']['layers']['DN50_vertical_columns']['columns']:
-            for segment in column['segments']:
-                lengths['DN50'] += segment['length']
+        # Layer 3 - DN50 segments (drainage to stair)
+        if 'layer_3_drainage_to_stair' in layers:
+            for connection in layers['layer_3_drainage_to_stair']['vertical_connections']:
+                lengths['DN50'] += connection['length']
                 
         return lengths
     

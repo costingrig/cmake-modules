@@ -11,119 +11,171 @@ basement_survey:
       coordinates: [0, 0, 0]  # x, y, z
 
   layers:
-    DN110_main_distribution:
-      name: "Coloană Principală DN110"
-      description: "Comună cu alte scări, distribuție generală"
+    layer_0_basement_plan:
+      name: "Layer 0 - Plan Releveu Subsol"
+      description: "Plan arhitectural al subsolului - fără diametru specific"
+      color: "#000000"  # Negru
+      type: "architectural_reference"
+      
+      elements:
+        basement_outline:
+          - id: "perimeter_wall"
+            type: "wall"
+            points: [[0, 0], [16, 0], [16, 10], [0, 10], [0, 0]]
+            notes: "Perimetrul subsolului"
+            
+        structural_elements:
+          - id: "pillar_1"
+            type: "pillar"
+            center: [4, 3]
+            dimensions: [0.4, 0.4]
+            
+          - id: "pillar_2" 
+            type: "pillar"
+            center: [12, 3]
+            dimensions: [0.4, 0.4]
+            
+        stair_locations:
+          - id: "scara_1"
+            type: "staircase"
+            center: [2, 5]
+            dimensions: [2, 3]
+            serves: "Scara 1"
+            
+          - id: "scara_2"
+            type: "staircase"
+            center: [8, 5]
+            dimensions: [2, 3]
+            serves: "Scara noastră"
+            
+          - id: "scara_3"
+            type: "staircase"
+            center: [14, 5]
+            dimensions: [2, 3]
+            serves: "Scara 3"
+
+    layer_1_common_between_stairs:
+      name: "Layer 1 - Țeavă Comună între Scări"
+      description: "Distribuție comună pentru toate scările"
       color: "#FF0000"  # Roșu
-      material: "oțel_galvanizat"  # sau "fier", "ppr", etc.
-      installation_year: "1985"  # estimativ
-      condition: "corodată_mediu"  # "bună", "corodată_ușor", "critică"
+      diameter: 110  # mm
+      material: "oțel_galvanizat"
+      installation_year: "1985"
+      condition: "corodată_mediu"
       
       segments:
-        - id: "DN110_01"
-          start_point: [0, 0, -2.5]
-          end_point: [15.5, 0, -2.5]
-          length: 15.5  # metri
-          diameter: 110  # mm
-          notes: "Segment principal de intrare"
+        - id: "main_supply"
+          start_point: [0, 1, -2.5]
+          end_point: [16, 1, -2.5]
+          length: 16.0
+          notes: "Alimentare principală din stradă"
           
-        - id: "DN110_02"
-          start_point: [15.5, 0, -2.5]
-          end_point: [15.5, 8.2, -2.5]
-          length: 8.2
-          diameter: 110
-          notes: "Ramificare către scările 1-3"
+        - id: "distribution_branch"
+          start_point: [8, 1, -2.5]
+          end_point: [8, 9, -2.5]
+          length: 8.0
+          notes: "Ramura de distribuție către scări"
           
       connection_points:
-        - id: "branșament_general"
-          coordinates: [0, 0, -2.5]
-          type: "intrare_principală"
-          diameter: 110
-          
-        - id: "derivație_scara_1"
-          coordinates: [5.2, 0, -2.5]
-          type: "ramificare"
+        - id: "connection_stair_1"
+          coordinates: [2, 1, -2.5]
+          type: "T_junction"
           diameter_out: 75
+          serves: "Scara 1"
           
-        - id: "derivație_scara_2"
-          coordinates: [10.8, 0, -2.5]
-          type: "ramificare"
+        - id: "connection_our_stair"
+          coordinates: [8, 1, -2.5]
+          type: "T_junction"
           diameter_out: 75
+          serves: "Scara noastră"
+          
+        - id: "connection_stair_3"
+          coordinates: [14, 1, -2.5]
+          type: "T_junction"
+          diameter_out: 75
+          serves: "Scara 3"
 
-    DN75_stair_distribution:
-      name: "Distribuție pe Scară DN75"
-      description: "Comună pentru scara noastră"
+    layer_2_our_stair_pipe:
+      name: "Layer 2 - Țeavă Scării Noastre"
+      description: "Distribuție specifică pentru scara noastră"
       color: "#0000FF"  # Albastru
+      diameter: 75  # mm
       material: "oțel_galvanizat"
       installation_year: "1985"
       condition: "corodată_grav"
       
       segments:
-        - id: "DN75_01"
-          start_point: [10.8, 0, -2.5]  # din DN110
-          end_point: [10.8, 6.0, -2.5]
+        - id: "stair_main_horizontal"
+          start_point: [8, 1, -2.5]  # din layer 1
+          end_point: [8, 7, -2.5]
           length: 6.0
-          diameter: 75
-          notes: "Segment principal scară"
+          notes: "Segment principal orizontal"
           
-        - id: "DN75_02"
-          start_point: [10.8, 6.0, -2.5]
-          end_point: [13.2, 6.0, -2.5]
-          length: 2.4
-          diameter: 75
-          notes: "Către coloanele din spate"
+        - id: "stair_secondary_branch"
+          start_point: [8, 5, -2.5]
+          end_point: [11, 5, -2.5]
+          length: 3.0
+          notes: "Ramură secundară către coloanele din fund"
           
       connection_points:
-        - id: "racord_coloana_A"
-          coordinates: [10.8, 2.0, -2.5]
-          type: "derivație_verticală"
+        - id: "vertical_column_A"
+          coordinates: [8, 3, -2.5]
+          type: "vertical_takeoff"
           diameter_out: 50
           serves_apartments: ["1A", "2A", "3A", "4A"]
+          column_id: "A"
           
-        - id: "racord_coloana_B"
-          coordinates: [10.8, 4.5, -2.5]
-          type: "derivație_verticală"
+        - id: "vertical_column_B"
+          coordinates: [8, 6, -2.5]
+          type: "vertical_takeoff"
           diameter_out: 50
           serves_apartments: ["1B", "2B", "3B", "4B"]
+          column_id: "B"
+          
+        - id: "vertical_column_C"
+          coordinates: [11, 5, -2.5]
+          type: "vertical_takeoff"
+          diameter_out: 50
+          serves_apartments: ["1C", "2C", "3C", "4C"]
+          column_id: "C"
 
-    DN50_vertical_columns:
-      name: "Coloane Verticale DN50"
-      description: "Individuală pe fiecare coloană de apartamente"
+    layer_3_drainage_to_stair:
+      name: "Layer 3 - Scurgeri la Țeava Scării"
+      description: "Conectările verticale către țeava scării noastre"
       color: "#00FF00"  # Verde
+      diameter: 50  # mm
       material: "oțel_galvanizat"
       installation_year: "1985"
       condition: "variabilă"
       
-      columns:
-        - id: "coloana_A"
-          name: "Coloana A - Apartamente A"
-          color: "#00AA00"
-          start_point: [10.8, 2.0, -2.5]
-          end_point: [10.8, 2.0, 0.0]  # până la parterul
+      vertical_connections:
+        - id: "column_A_vertical"
+          name: "Coloana A - Verticală"
+          start_point: [8, 3, -2.5]
+          end_point: [8, 3, 0.0]  # până la parter
+          length: 2.5
           serves_apartments: ["1A", "2A", "3A", "4A"]
           condition: "corodată_mediu"
+          priority: 2
           
-          segments:
-            - id: "DN50_A_basement"
-              start_point: [10.8, 2.0, -2.5]
-              end_point: [10.8, 2.0, -0.3]
-              length: 2.2
-              notes: "Segment subsol către parter"
-              
-        - id: "coloana_B"
-          name: "Coloana B - Apartamente B"
-          color: "#00CC00"
-          start_point: [10.8, 4.5, -2.5]
-          end_point: [10.8, 4.5, 0.0]
+        - id: "column_B_vertical"
+          name: "Coloana B - Verticală"
+          start_point: [8, 6, -2.5]
+          end_point: [8, 6, 0.0]
+          length: 2.5
           serves_apartments: ["1B", "2B", "3B", "4B"]
           condition: "critică"
+          priority: 1
+          notes: "Necesită înlocuire urgentă - presiune scăzută"
           
-          segments:
-            - id: "DN50_B_basement"
-              start_point: [10.8, 4.5, -2.5]
-              end_point: [10.8, 4.5, -0.3]
-              length: 2.2
-              notes: "Necesită înlocuire urgentă"
+        - id: "column_C_vertical"
+          name: "Coloana C - Verticală"
+          start_point: [11, 5, -2.5]
+          end_point: [11, 5, 0.0]
+          length: 2.5
+          serves_apartments: ["1C", "2C", "3C", "4C"]
+          condition: "bună"
+          priority: 3
 
   additional_infrastructure:
     valves:
